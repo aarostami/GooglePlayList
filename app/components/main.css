@@ -1,0 +1,8 @@
+@media screen and (max-width: 768px) {
+	.MuiStack-root {
+		height: 8rem;
+		flex-direction: column;
+		padding-bottom: 0;
+		overflow-x: scroll;
+	}
+}
