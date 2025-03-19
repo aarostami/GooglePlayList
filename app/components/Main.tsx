@@ -30,11 +30,13 @@ export default function Main() {
 		if (firstrender == true) {
 			/* Category()
 				.then(resp => { setCategory(Object.keys(resp.category)); console.log(resp) }) */
-			fetch('http://localhost:8000/category').then(res => res.json()).then(data => setCategory(Object.keys(data.category)))
+			// fetch('http://localhost:8000/category').then(res => res.json()).then(data => setCategory(Object.keys(data.category)))
+			fetch('https://project28-googleplaylist-server.onrender.com/category').then(res => res.json()).then(data => setCategory(Object.keys(data.category)))
 			/* getlistfn()
 				.then(res => { getList = res; //in baad az reseive data new render nemikone.
 				setGetList(res); console.log(res); }) */
-			fetch('http://localhost:8000', { method: 'POST' }).then(res => res.json()).then(data => { setGetList(data.toSorted((a, b) => b.installsNum - a.installsNum)); console.log(data) })
+			// fetch('http://localhost:8000', { method: 'POST' }).then(res => res.json()).then(data => { setGetList(data.toSorted((a, b) => b.installsNum - a.installsNum)); console.log(data) })
+			fetch('https://project28-googleplaylist-server.onrender.com/', { method: 'POST' }).then(res => res.json()).then(data => { setGetList(data.toSorted((a, b) => b.installsNum - a.installsNum)); console.log(data) })
 			// collection:
 			// TOP_FREE: 'TOP_FREE', --> default
 			// TOP_PAID: 'TOP_PAID',
@@ -52,7 +54,8 @@ export default function Main() {
 
 	const catfn = (e) => {
 		/* getlistfn(e.target.innerText).then(res => setGetList(res); console.log(res)) */
-		fetch('http://localhost:8000/', {
+		// fetch('http://localhost:8000/', {
+		fetch('https://project28-googleplaylist-server.onrender.com/', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ catName: e.target.innerText })
@@ -79,7 +82,8 @@ export default function Main() {
 		setCounter(counter + 5)
 		setLoading(true)
 		/* getlistfn(catName, counter).then(res => { setGetList(res); setLoading(false) }) */
-		fetch('http://localhost:8000', {
+		// fetch('http://localhost:8000', {
+		fetch('https://project28-googleplaylist-server.onrender.com/', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ catName: catName, counter: counter })
