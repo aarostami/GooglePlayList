@@ -36,7 +36,7 @@ export default function Main() {
 				.then(res => { getList = res; //in baad az reseive data new render nemikone.
 				setGetList(res); console.log(res); }) */
 			// fetch('http://localhost:8000', { method: 'POST' }).then(res => res.json()).then(data => { setGetList(data.toSorted((a, b) => b.installsNum - a.installsNum)); console.log(data) })
-			fetch('https://project28-googleplaylist-server.onrender.com/', { method: 'POST' }).then(res => res.json()).then(data => { setGetList(data.toSorted((a, b) => b.installsNum - a.installsNum)) })
+			fetch('https://project28-googleplaylist-server.onrender.com/', { method: 'POST', headers: { 'Access-Control-Allow-Origin': '*' } }).then(res => res.json()).then(data => { setGetList(data.toSorted((a, b) => b.installsNum - a.installsNum)) })
 			// collection:
 			// TOP_FREE: 'TOP_FREE', --> default
 			// TOP_PAID: 'TOP_PAID',
@@ -161,7 +161,7 @@ export default function Main() {
 									{/* </div> */}
 								</TableRow>
 							) : <TableRow>
-								<TableCell sx={{fontSize: '1.5rem'}}>loading...</TableCell>
+								<TableCell sx={{ fontSize: '1.5rem' }}>loading...</TableCell>
 							</TableRow>}
 						</TableBody>
 					</Table>
