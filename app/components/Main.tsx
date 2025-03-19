@@ -126,40 +126,36 @@ export default function Main() {
 								<Divider />
 								</React.Fragment> */
 								<TableRow key={index} sx={{ '&:nth-of-type(odd)': { backgroundColor: '#f3f3f3' } }}>
-									<div className='table_small'>
-										<TableCell sx={{ fontWeight: 'bold', fontSize: '1.2rem' }}>
-											{index + 1}
-										</TableCell>
-										<TableCell>
-											<ListItemAvatar>
-												<Avatar src={value.icon} />
-											</ListItemAvatar>
-										</TableCell>
-										<TableCell sx={{ fontWeight: 'bold' }}>
-											{value.title}
-										</TableCell>
-									</div>
+									{/* ba div error td nemitoone dar div bashe mide */}
+									{/* <div className='table_small'> */}
+									<TableCell sx={{ fontWeight: 'bold', fontSize: '1.2rem' }}>
+										{index + 1}
+									</TableCell>
+									<TableCell>
+										<Avatar src={value.icon} />
+									</TableCell>
+									<TableCell sx={{ fontWeight: 'bold' }}>
+										{value.title}
+									</TableCell>
+									{/* </div> */}
 									{/* <Typography>{value.summary}</Typography> */}
-									<div className='table_small'>
-										<TableCell>
-											<ListItemIcon>
-												<StarIcon />
-												<ListItemText primary={value.scoreText} />
-											</ListItemIcon>
-										</TableCell>
-										<TableCell>
-											<ListItemIcon>
-												<InstallMobileIcon />
-												<ListItemText primary={value.installs} />
-											</ListItemIcon>
-										</TableCell>
-									</div>
+									{/* <div className='table_small'> */}
+									<TableCell>
+										<ListItemIcon>
+											<StarIcon />
+											<ListItemText primary={value.scoreText} />
+										</ListItemIcon>
+									</TableCell>
+									<TableCell>
+										<ListItemIcon>
+											<InstallMobileIcon />
+											<ListItemText primary={value.installs} />
+										</ListItemIcon>
+									</TableCell>
+									{/* </div> */}
 								</TableRow>
 							) : <TableRow>
-								<TableCell>loading...</TableCell>
-								<TableCell>loading...</TableCell>
-								<TableCell>loading...</TableCell>
-								<TableCell>loading...</TableCell>
+								<TableCell sx={{fontSize: '1.5rem'}}>loading...</TableCell>
 							</TableRow>}
 						</TableBody>
 					</Table>

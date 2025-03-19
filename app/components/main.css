@@ -19,10 +19,23 @@
 		overflow-x: scroll;
 	}
 
+	.MuiTableBody-root tr {
+		display: block;
+	}
+
 	.MuiTableBody-root tr td {
 		padding-left: 0.5rem;
 		padding-right: 0.5rem;
 		border-bottom: 0;
+	}
+
+	.MuiTableBody-root tr td:nth-of-type(4) {
+		display: inline-block;
+		width: 6rem;
+	}
+
+	.MuiTableBody-root tr td:nth-of-type(5) {
+		display: inline-block;
 	}
 
 	.MuiTableBody-root tr .table_small {
