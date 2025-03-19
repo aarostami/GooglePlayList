@@ -1,4 +1,4 @@
-// 'use client'
+'use client'
 
 export default function Page() {	//or Contact() {}
 	/* let isServer = typeof window

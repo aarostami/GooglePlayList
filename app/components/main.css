@@ -1,8 +1,36 @@
+.MuiTableBody-root tr td {
+	border-bottom: 0;
+}
+
+.MuiTableBody-root tr .table_small {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.MuiTableBody-root tr .table_small:first-of-type {
+	width: 40%;
+}
+
 @media screen and (max-width: 768px) {
 	.MuiStack-root {
 		height: 8rem;
 		flex-direction: column;
 		padding-bottom: 0;
 		overflow-x: scroll;
+	}
+
+	.MuiTableBody-root tr td {
+		padding-left: 0.5rem;
+		padding-right: 0.5rem;
+		border-bottom: 0;
+	}
+
+	.MuiTableBody-root tr .table_small {
+		display: block;
+		width: 100%;
+	}
+
+	.MuiTableBody-root tr .table_small:first-of-type {
+		width: 100%;
 	}
 }

@@ -1,45 +1,24 @@
 'use client'
-import { Avatar, Button, Chip, Container, Divider, Grid, ListItemAvatar, ListItemIcon, ListItemText, Stack, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material'
+import { Avatar, Button, Chip, Container, Divider, Grid, List, ListItemAvatar, ListItemIcon, ListItemText, Stack, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material'
 //import gplay from 'google-play-scraper'	//baraye server ok hast
 import React, { Suspense, useEffect, useState } from 'react';
 import getlistfn from './server';
-//import s2 from './s2';
-
+import Category from './category';
 //import Handsontable from 'handsontable/base';
-import { registerAllModules } from 'handsontable/registry';
+// import { registerAllModules } from 'handsontable/registry';
 //import { HotTable } from '@handsontable/react-wrapper';
 import 'handsontable/styles/handsontable.min.css';
 import 'handsontable/styles/ht-theme-main.min.css';
-
 import StarIcon from '@mui/icons-material/Star';
 import InstallMobileIcon from '@mui/icons-material/InstallMobile';
-import Category from './category';
 //import { NoSsr } from '@mui/base/NoSsr';
 //import { CacheProvider } from '@emotion/react';
 import './main.css'
 
-registerAllModules();
+// registerAllModules();
 
 export default function Main() {
-	// var getList;
-	//let newgetList;
-	// 'use server'
 	// var [state, action, pending] = useActionState(getlist, null)
-
-	/* async function getlist() {
-		'use server'
-		await gplay.list({
-			category: gplay.category.GAME_ACTION,
-			collection: gplay.collection.TOP_FREE,
-			num: 4
-		}).then(async data => {
-			await data.map(async (value) => {
-				newgetList = await gplay.app({
-					appId: value.appId
-				})
-			})
-		});
-	} */
 	const [getList, setGetList] = useState([])
 	const [category, setCategory] = useState({})
 	const [catName, setCatName] = useState('')
@@ -48,30 +27,36 @@ export default function Main() {
 	const [loading, setLoading] = useState(false)
 
 	useEffect(() => {
-		// fetch('http://localhost:8000').then(res => res.json()).then(data => console.log(data))
 		if (firstrender == true) {
-			getlistfn()
-				.then(res => {
-					// getList = res; console.log(res);
-					setGetList(res); console.log(res);
-					// await s2(res).then(async res => { await console.log(res); newgetList = res; getList = [...getList] })
-				})
-			Category()
-				.then(resp => { setCategory(Object.keys(resp.category)); console.log(resp) })
-			console.log(category)
+			/* Category()
+				.then(resp => { setCategory(Object.keys(resp.category)); console.log(resp) }) */
+			fetch('http://localhost:8000/category').then(res => res.json()).then(data => setCategory(Object.keys(data.category)))
+			/* getlistfn()
+				.then(res => { getList = res; //in baad az reseive data new render nemikone.
+				setGetList(res); console.log(res); }) */
+			fetch('http://localhost:8000', { method: 'POST' }).then(res => res.json()).then(data => { setGetList(data.toSorted((a, b) => b.installsNum - a.installsNum)); console.log(data) })
+			// collection:
+			// TOP_FREE: 'TOP_FREE', --> default
+			// TOP_PAID: 'TOP_PAID',
+			// GROSSING: 'GROSSING'
+			// clusters:
+			// new: 'new',
+			// top: 'top'
+			// sort:
+			// NEWEST: 2,
+			// RATING: 3,
+			// HELPFULNESS: 1
 			setFirstrender(false)
 		}
-
 	}, [])
 
 	const catfn = (e) => {
-		console.log(e)
-		setCatName(e.target.innerText)
-		getlistfn(e.target.innerText)
-			.then(res => {
-				// getList = res; console.log(res);
-				setGetList(res); console.log(res)
-			})
+		/* getlistfn(e.target.innerText).then(res => setGetList(res); console.log(res)) */
+		fetch('http://localhost:8000/', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ catName: e.target.innerText })
+		}).then(res => res.json()).then(data => setGetList(data))
 	}
 
 	const rate_lth = () => {
@@ -92,82 +77,83 @@ export default function Main() {
 
 	const more = () => {
 		setCounter(counter + 5)
-		// console.log(counter)
 		setLoading(true)
-		getlistfn(catName, counter)
-			.then(res => {
-				// getList = res; console.log(res);
-				setGetList(res); console.log(res); setLoading(false)
-			})
+		/* getlistfn(catName, counter).then(res => { setGetList(res); setLoading(false) }) */
+		fetch('http://localhost:8000', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ catName: catName, counter: counter })
+		}).then(res => res.json()).then(data => { setGetList(data.toSorted((a, b) => b.installsNum - a.installsNum)); setLoading(false); console.log(data) })
 	}
 
 	/* var isServer = typeof window === 'undefined'
 	console.log(isServer ? 'server' : 'client') */
 
-	return <>
-		<Container maxWidth sx={{ py: '1rem' }}>
-			<Typography sx={{ textAlign: 'center' }} variant='h4'>Google Play List</Typography>
-			<Stack direction={'row'} sx={{ flexWrap: 'wrap', py: '2rem', rowGap: '0.3rem', columnGap: '0.3rem' }}>
-				{(category.length) ? category.map((value, index) =>
-					<Chip key={index} label={value} variant='outlined' onClick={(e) => catfn(e)} />
-				) : <p>loading...</p>}
-				{/* {() => Category()} */}
-			</Stack>
-			<Divider sx={{ mb: '1rem' }} />
-			<Grid container sx={{ gap: '0.5rem' }}>
-				<Button variant='contained' onClick={() => rate_lth()}>rate (low to high)</Button>
-				<Button variant='contained' onClick={() => rate_htl()} /* sx={{ mx: '0.5rem' }} */>rate (high to low)</Button>
-				<Button variant='contained' onClick={() => install_lth()} /* sx={{ mx: '0.5rem' }} */>install (low to high)</Button>
-				<Button variant='contained' onClick={() => install_htl()}>install (high to low)</Button>
-			</Grid>
-			{/* <List> */}
+	return <Container maxWidth sx={{ py: '1rem' }}>
+		<Typography sx={{ textAlign: 'center' }} variant='h4'>Google Play List</Typography>
+		<Stack direction={'row'} sx={{ flexWrap: 'wrap', py: '2rem', rowGap: '0.3rem', columnGap: '0.3rem' }}>
+			{(category.length) ? category.map((value, index) =>
+				<Chip key={index} label={value} variant='outlined' onClick={(e) => catfn(e)} />
+			) : <p>loading...</p>}
+		</Stack>
+		<Divider sx={{ mb: '1rem' }} />
+		<Grid container sx={{ gap: '0.5rem' }}>
+			<Button variant='contained' onClick={() => rate_lth()}>rate (low to high)</Button>
+			<Button variant='contained' onClick={() => rate_htl()} /* sx={{ mx: '0.5rem' }} */>rate (high to low)</Button>
+			<Button variant='contained' onClick={() => install_lth()} /* sx={{ mx: '0.5rem' }} */>install (low to high)</Button>
+			<Button variant='contained' onClick={() => install_htl()}>install (high to low) (default)</Button>
+		</Grid>
+		<List>
 			<Suspense fallback="loading">
 				<TableContainer>
 					<Table sx={{ my: '1rem' }}>
 						<TableBody>
 							{(getList.length) ? getList.map((value, index) =>
-								// <React.Fragment key={index}>
-								// 	<ListItemAvatar>
-								// 		<Avatar src={value.icon} />
-								// 	</ListItemAvatar>
-								// 	<Typography fontWeight={'bold'}>{value.title}</Typography>
-								// 	{/* <Typography>{value.summary}</Typography> */}
-								// 	<ListItemIcon>
-								// 		<StarIcon />
-								// 		<ListItemText primary={value.scoreText} />
-								// 	</ListItemIcon>
-								// 	<ListItemIcon>
-								// 		<InstallMobileIcon />
-								// 		<ListItemText primary={value.installs} />
-								// 	</ListItemIcon>
-								// 	{/* <Divider /> */}
-								// </React.Fragment>
-
+								/* <React.Fragment key={index}>
+								<ListItemAvatar>
+												<Avatar src={value.icon} />
+										  </ListItemAvatar>
+										  <Typography fontWeight={'bold'}>{value.title}</Typography>
+								<Typography>{value.summary}</Typography>
+								<ListItemIcon>
+												<StarIcon />
+												<ListItemText primary={value.scoreText} />
+										  </ListItemIcon>
+										  <ListItemIcon>
+												<InstallMobileIcon />
+												<ListItemText primary={value.installs} />
+										  </ListItemIcon>
+								<Divider />
+								</React.Fragment> */
 								<TableRow key={index} sx={{ '&:nth-of-type(odd)': { backgroundColor: '#f3f3f3' } }}>
-									<TableCell sx={{ fontWeight: 'bold' }}>
-										{index + 1}
-									</TableCell>
-									<TableCell>
-										<ListItemAvatar>
-											<Avatar src={value.icon} />
-										</ListItemAvatar>
-									</TableCell>
-									<TableCell sx={{ fontWeight: 'bold' }}>
-										{value.title}
-									</TableCell>
+									<div className='table_small'>
+										<TableCell sx={{ fontWeight: 'bold', fontSize: '1.2rem' }}>
+											{index + 1}
+										</TableCell>
+										<TableCell>
+											<ListItemAvatar>
+												<Avatar src={value.icon} />
+											</ListItemAvatar>
+										</TableCell>
+										<TableCell sx={{ fontWeight: 'bold' }}>
+											{value.title}
+										</TableCell>
+									</div>
 									{/* <Typography>{value.summary}</Typography> */}
-									<TableCell>
-										<ListItemIcon>
-											<StarIcon />
-											<ListItemText primary={value.scoreText} />
-										</ListItemIcon>
-									</TableCell>
-									<TableCell>
-										<ListItemIcon>
-											<InstallMobileIcon />
-											<ListItemText primary={value.installs} />
-										</ListItemIcon>
-									</TableCell>
+									<div className='table_small'>
+										<TableCell>
+											<ListItemIcon>
+												<StarIcon />
+												<ListItemText primary={value.scoreText} />
+											</ListItemIcon>
+										</TableCell>
+										<TableCell>
+											<ListItemIcon>
+												<InstallMobileIcon />
+												<ListItemText primary={value.installs} />
+											</ListItemIcon>
+										</TableCell>
+									</div>
 								</TableRow>
 							) : <TableRow>
 								<TableCell>loading...</TableCell>
@@ -221,7 +207,6 @@ export default function Main() {
 					]}
 				/>
 			</div> */}
-			{/* </List> */}
-		</Container>
-	</>
+		</List>
+	</Container>
 }
