@@ -16,9 +16,12 @@ const app = express()
 // app.use(express.urlencoded({extended: true}))	// for parsing application/x-www-form-urlencoded 
 // app.use(bodyParser.urlencoded({extended: true}))
 // app.use(bodyParser.urlencoded())
-app.use(cors())
+// app.use(cors({origin: 'https://aarostami.github.io/project28-GooglePlayList/'}))
+app.use(cors({origin: '*'}))
 
 app.get('/category', function (req, res) {
+	res.set('Access-Control-Allow-Origin', '*')
+	// res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
 	// return { category: gplay.category }
 	res.send({ category: gplay.category })
 	/* return (category.length) ? Object.keys(category).map((value) =>
@@ -27,6 +30,7 @@ app.get('/category', function (req, res) {
 })
 
 app.post('/', bodyParser.json(), async function (req, res) {
+	res.set('Access-Control-Allow-Origin', '*')
 	let newgetList = [];
 	let cat = req.body.catName
 	let counter = req.body.counter
