@@ -20,6 +20,7 @@ const app = express()
 app.use(cors({origin: '*'}))
 
 app.get('/', function (req, res) {
+	res.set('Access-Control-Allow-Origin', '*')
 	res.send('server is on')
 })
 

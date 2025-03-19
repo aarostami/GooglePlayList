@@ -102,10 +102,10 @@ export default function Main() {
 		</Stack>
 		<Divider sx={{ mb: '1rem' }} />
 		<Grid container sx={{ gap: '0.5rem' }}>
-			<Button variant='contained' onClick={() => rate_lth()}>rate (low to high)</Button>
-			<Button variant='contained' onClick={() => rate_htl()} /* sx={{ mx: '0.5rem' }} */>rate (high to low)</Button>
-			<Button variant='contained' onClick={() => install_lth()} /* sx={{ mx: '0.5rem' }} */>install (low to high)</Button>
-			<Button variant='contained' onClick={() => install_htl()}>install (high to low) (default)</Button>
+			<Button variant='contained' size='small' onClick={() => rate_lth()}>rate (low to high)</Button>
+			<Button variant='contained' size='small' onClick={() => rate_htl()} /* sx={{ mx: '0.5rem' }} */>rate (high to low)</Button>
+			<Button variant='contained' size='small' onClick={() => install_lth()} /* sx={{ mx: '0.5rem' }} */>install (low to high)</Button>
+			<Button variant='contained' size='small' onClick={() => install_htl()}>install (high to low) (default)</Button>
 		</Grid>
 		<List>
 			<Suspense fallback="loading">
