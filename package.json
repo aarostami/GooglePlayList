@@ -5,9 +5,9 @@
   "homepage": "https://aarostami.github.io/GooglePlayList",
   "scripts": {
     "//dev": "cross-env NODE_OPTIONS='--inspect' next dev",
-    "////dev": "concurrently \"next dev\" \"nodemon --inspect ./app/server.js\"",
+    "dev": "concurrently \"next dev\" \"nodemon --inspect ./app/server.js\"",
 	"///dev": "node --experimental-modules server.js",
-    "dev": "concurrently \"next dev\"",
+    "/////dev": "concurrently \"next dev\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
