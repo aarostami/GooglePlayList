@@ -14,8 +14,8 @@
 @media screen and (max-width: 768px) {
 	.MuiStack-root {
 		height: 8rem;
-		flex-direction: column;
-		padding-bottom: 0;
+		flex-direction: column !important;	/* agar !important nazarim dar development ok hast, ama nemidoonam chera dar build ok nist va bayad bezarim */
+		padding-bottom: 0 !important;	/* agar !important nazarim dar development ok hast, ama nemidoonam chera dar build ok nist va bayad bezarim */
 		overflow-x: scroll;
 	}
 
