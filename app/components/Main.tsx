@@ -57,8 +57,8 @@ export default function Main() {
 		// fetch('http://localhost:8000/', {
 		fetch('https://project28-googleplaylist-server.onrender.com/', {
 			method: 'POST',
-			mode: 'no-cors',
-			headers: { 'Content-Type': 'application/json' },
+			// mode: 'no-cors',
+			headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
 			body: JSON.stringify({ catName: e.target.innerText })
 		}).then(res => res.json()).then(data => setGetList(data))
 	}
@@ -86,8 +86,8 @@ export default function Main() {
 		// fetch('http://localhost:8000', {
 		fetch('https://project28-googleplaylist-server.onrender.com/', {
 			method: 'POST',
-			mode: 'no-cors',
-			headers: { 'Content-Type': 'application/json' },
+			// mode: 'no-cors',
+			headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
 			body: JSON.stringify({ catName: catName, counter: counter })
 		}).then(res => res.json()).then(data => { setGetList(data.toSorted((a, b) => b.installsNum - a.installsNum)); setLoading(false); console.log(data) })
 	}
