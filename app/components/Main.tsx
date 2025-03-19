@@ -36,7 +36,7 @@ export default function Main() {
 				.then(res => { getList = res; //in baad az reseive data new render nemikone.
 				setGetList(res); console.log(res); }) */
 			// fetch('http://localhost:8000', { method: 'POST' }).then(res => res.json()).then(data => { setGetList(data.toSorted((a, b) => b.installsNum - a.installsNum)); console.log(data) })
-			fetch('https://project28-googleplaylist-server.onrender.com/', { method: 'POST', headers: { 'Access-Control-Allow-Origin': '*' } }).then(res => res.json()).then(data => { setGetList(data.toSorted((a, b) => b.installsNum - a.installsNum)) })
+			fetch('https://project28-googleplaylist-server.onrender.com/', { method: 'POST', headers: { 'Access-Control-Allow-Origin': '*' }/* ino nazarim ham kar mikone */ }).then(res => res.json()).then(data => { setGetList(data.toSorted((a, b) => b.installsNum - a.installsNum)) })
 			// collection:
 			// TOP_FREE: 'TOP_FREE', --> default
 			// TOP_PAID: 'TOP_PAID',
@@ -54,6 +54,8 @@ export default function Main() {
 
 	const catfn = (e) => {
 		/* getlistfn(e.target.innerText).then(res => setGetList(res); console.log(res)) */
+		setCounter(10)
+		setCatName(e.target.innerText)
 		// fetch('http://localhost:8000/', {
 		fetch('https://project28-googleplaylist-server.onrender.com/', {
 			method: 'POST',
@@ -82,6 +84,7 @@ export default function Main() {
 	const more = () => {
 		setCounter(counter + 5)
 		setLoading(true)
+		console.log(catName)
 		/* getlistfn(catName, counter).then(res => { setGetList(res); setLoading(false) }) */
 		// fetch('http://localhost:8000', {
 		fetch('https://project28-googleplaylist-server.onrender.com/', {
