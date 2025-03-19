@@ -19,6 +19,10 @@ const app = express()
 // app.use(cors({origin: 'https://aarostami.github.io/project28-GooglePlayList/'}))
 app.use(cors({origin: '*'}))
 
+app.get('/', function (req, res) {
+	res.send('server is on')
+})
+
 app.get('/category', function (req, res) {
 	res.set('Access-Control-Allow-Origin', '*')
 	// res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
