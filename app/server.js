@@ -17,15 +17,17 @@ const app = express()
 // app.use(bodyParser.urlencoded({extended: true}))
 // app.use(bodyParser.urlencoded())
 // app.use(cors({origin: 'https://aarostami.github.io/project28-GooglePlayList/'}))
-app.use(cors({origin: '*'}))
+app.use(cors({ origin: '*' }))
 
 app.get('/', function (req, res) {
 	res.set('Access-Control-Allow-Origin', '*')
+	res.header("Access-Control-Allow-Origin", "*")
 	res.send('server is on')
 })
 
 app.get('/category', function (req, res) {
 	res.set('Access-Control-Allow-Origin', '*')
+	res.header("Access-Control-Allow-Origin", "*")
 	// res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
 	// return { category: gplay.category }
 	res.send({ category: gplay.category })
@@ -34,8 +36,8 @@ app.get('/category', function (req, res) {
 	) : 'loading' */
 })
 
+let render = 0
 app.post('/', bodyParser.json(), async function (req, res) {
-	res.set('Access-Control-Allow-Origin', '*')
 	let newgetList = [];
 	let cat = req.body.catName
 	let counter = req.body.counter
@@ -44,7 +46,9 @@ app.post('/', bodyParser.json(), async function (req, res) {
 		// await memoized.list({
 		category: (cat != undefined && cat != '') ? cat : gplay.category.GAME_ACTION,
 		collection: gplay.collection.TOP_FREE,
-		num: (counter != undefined) ? counter : 5
+		num: (counter != undefined) ? counter : 5,
+		// num: 5,
+		// throttle: 2
 	}).then(async data => {
 		// ba map ya forEach ya ... nemishe.
 		console.log(data)
@@ -67,13 +71,11 @@ app.post('/', bodyParser.json(), async function (req, res) {
 		newgetList = data;
 	});
 
+	render++;
+	res.set('Access-Control-Allow-Origin', '*')
+	res.header("Access-Control-Allow-Origin", "*")
 	// return newgetList
 	res.send(newgetList)
 })
-
-/* app.post('/', bodyParser.json(), function (req, res) {
-	console.log(req.body)
-	res.end('heelo')
-}) */
 
 app.listen(8000, () => { console.log('server run') })

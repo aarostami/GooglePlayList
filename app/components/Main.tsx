@@ -11,6 +11,7 @@ import 'handsontable/styles/handsontable.min.css';
 import 'handsontable/styles/ht-theme-main.min.css';
 import StarIcon from '@mui/icons-material/Star';
 import InstallMobileIcon from '@mui/icons-material/InstallMobile';
+import DownloadIcon from '@mui/icons-material/Download';
 //import { NoSsr } from '@mui/base/NoSsr';
 //import { CacheProvider } from '@emotion/react';
 import './main.css'
@@ -48,6 +49,8 @@ export default function Main() {
 			// NEWEST: 2,
 			// RATING: 3,
 			// HELPFULNESS: 1
+			// fetch('http://localhost:8000/baz')
+			// fetch('https://pardakht.cafebazaar.ir/devapi/v2/api').then(res => res.json()).then(data => console.log(data))
 			setFirstrender(false)
 		}
 	}, [])
@@ -62,7 +65,7 @@ export default function Main() {
 			// mode: 'no-cors',
 			headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
 			body: JSON.stringify({ catName: e.target.innerText })
-		}).then(res => res.json()).then(data => setGetList(data))
+		}).then(res => res.json()).then(data => setGetList(data.toSorted((a, b) => b.installsNum - a.installsNum)))
 	}
 
 	const rate_lth = () => {
@@ -144,7 +147,7 @@ export default function Main() {
 										<Avatar src={value.icon} />
 									</TableCell>
 									<TableCell sx={{ fontWeight: 'bold' }}>
-										{value.title}
+										<a href={value.url}>{value.title}</a>
 									</TableCell>
 									{/* </div> */}
 									{/* <Typography>{value.summary}</Typography> */}
