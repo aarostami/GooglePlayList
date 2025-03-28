@@ -48,33 +48,37 @@ app.post('/', bodyParser.json(), async function (req, res) {
 		collection: gplay.collection.TOP_FREE,
 		num: (counter != undefined) ? counter : 5,
 		// num: 5,
-		// throttle: 2
+		//throttle: 2		//chon khode button 'more' mizanim loading mishe va nemiitoonim chand bar poshte sareham bezanim, pas inja taasir nadare.
+		fullDetail: true	//agar ino nazarim bayad gplay.app dovom dar loop for ro run konim
 	}).then(async data => {
 		// ba map ya forEach ya ... nemishe.
 		console.log(data)
-		for (let i = 0; i < data.length; i++) {
-			newgetList = await gplay.app({
+		for (let i = 0; i < data.length; i++) {		//inja bahse pichidegi zamani mohemme.
+			data[i].installsNum = data[i].installs.replaceAll(',', '').replace('+', '');
+			/* newgetList = await gplay.app({	//time ziyadi ke tool mikeshe be front react send kone bekhatere in gplay dovom hast.
 				// newgetList = await memoized.app({
 				appId: data[i].appId
 			}).then(da =>
 			// data.install = da.installs;
 			// data.forEach((val) =>
 			{
+				console.log(da)
 				const numi = da.installs.replaceAll(',', '').replace('+', '');
 				data[i].installs = da.installs
 				data[i].installsNum = numi
 			}
 				// newgetList = data;	//ino inja mizarim nemidoonam chera dar return undefined mishe.
 				// return data
-			)
+			) */
 		}
-		newgetList = data;
+		newgetList = data;	//data yek array [] hast, ke taghiir dade shode, vali chon array hast, newgetList.push(data) dorost nista.
 	});
 
 	render++;
 	res.set('Access-Control-Allow-Origin', '*')
 	res.header("Access-Control-Allow-Origin", "*")
 	// return newgetList
+	// setTimeout(() => res.send(newgetList), 500)
 	res.send(newgetList)
 })
 
