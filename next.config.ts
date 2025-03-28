@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
   experimental: {
 	// serverActions: true,
 	// runtime: 'edge'
-	esmExternals: true
+	esmExternals: false
   },
   /* webpack: (config, { isServer }) => {
         if (!isServer) {
