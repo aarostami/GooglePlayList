@@ -3,10 +3,11 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
 //   output: 'export',
-  /* experimental: {
-	serverActions: true,
-	runtime: 'edge'
-  }, */
+  experimental: {
+	// serverActions: true,
+	// runtime: 'edge'
+	esmExternals: true
+  },
   /* webpack: (config, { isServer }) => {
         if (!isServer) {
              config.resolve.fallback.fs = false
